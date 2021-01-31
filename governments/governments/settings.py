@@ -48,6 +48,7 @@ ALLOWED_HOSTS = [get_key('allow_host')]
 # Application definition
 
 INSTALLED_APPS = [
+    'statement.apps.StatementConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,6 +102,9 @@ DATABASES = {
         'PASSWORD': get_key('db_password'),
         'NAME': get_key('db_name'),
         'PORT': get_key('db_port'),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
     }
 }
 
