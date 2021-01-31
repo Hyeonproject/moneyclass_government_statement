@@ -7,17 +7,15 @@ HOMEWORK_CHECKED = [
     ('LATE_SUBMIT', 'Late_Submit'),
 ]
 
-
-class TimeStampModel(models.Model):
+class TimeStamp(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
 
-
-class Homework(TimeStampModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+class Homework(TimeStamp):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=True)
     name = models.CharField(max_length=50)
     end_time = models.DateTimeField()
 
@@ -25,9 +23,9 @@ class Homework(TimeStampModel):
         return '{}'.format(self.name)
 
 
-class Checked(TimeStampModel):
+class Checked(TimeStamp):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    student_email = models.EmailField(max_length=100)
-    homework_name = models.ForeignKey('Homework', related_name='checked_homework_name',on_delete=models.CASCADE,
-                                      db_column='name')
-    state = models.CharField()
+    student_email = models.EmailField(max_length=75, unique=True)
+    homework_name = models.ForeignKey('Homework', on_delete=models.CASCADE,
+                                      related_name='homework_name', db_column='name')
+    state = models.CharField(max_length=20, choices=HOMEWORK_CHECKED, default='NOT_SUBMIT')
