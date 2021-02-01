@@ -29,3 +29,6 @@ class Checked(TimeStamp):
     homework_name = models.ForeignKey('Homework', on_delete=models.CASCADE,
                                       related_name='homework_name', db_column='name')
     state = models.CharField(max_length=20, choices=HOMEWORK_CHECKED, default='NOT_SUBMIT')
+
+    def __str__(self):
+        return '{}님의 {}과제'.format(self.student_email, self.homework_name)

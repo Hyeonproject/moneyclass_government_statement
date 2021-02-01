@@ -142,6 +142,9 @@ USE_L10N = True
 USE_TZ = False
 
 
+# REST Framework setting
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
