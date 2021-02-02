@@ -38,6 +38,7 @@ class HomeworkTests(APITestCase):
             'homework': '자신의 꿈을 생각하기',
             'end_time': '2021-02-13'
         }
+        self.client.
         self.client.session.headers.update(
             {'Authorization': 'Bearer {}'.format(self.token_teacher)}
         )
@@ -53,6 +54,7 @@ class HomeworkTests(APITestCase):
         전체 숙제를 보여주는 기능을 테스트 합니다.
         """
         url = reverse('homework')
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Homework.objects.count(), 1)

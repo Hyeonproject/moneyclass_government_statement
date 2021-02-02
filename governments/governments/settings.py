@@ -168,6 +168,9 @@ SIMPLE_JWT = {
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
 }
 
+JWT_ALGORITHMS = get_key('token_algorithms')
+JWT_PASSWORD = get_key('token_key')
+
 # cache
 # CACHES = {
 #     'default':{
@@ -183,3 +186,6 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# 변수를 위해서
