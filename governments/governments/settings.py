@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
+from datetime import timedelta
 import json, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,6 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -150,9 +153,31 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PARSER_CLASSES': [
     #   'rest_framework.parsers.JSONParser',
     # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+
+#jwt
+SIMPLE_JWT = {
+    'ALGORITHM': 'HS256',
+
+    'AUTH_HEADER_TYPES':('Bearer'),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+}
+
+# cache
+# CACHES = {
+#     'default':{
+#         'BACKEND' :'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/1',
+#         'OPTION': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

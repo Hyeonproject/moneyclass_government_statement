@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import authentication, permissions, status
+from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Homework
 from .serializers import HomeworkDataSerializer, HomeworkSerializer, HomeworkPutSerializer,\
@@ -14,6 +15,7 @@ class HomeworkView(APIView):
     Read는 전체를 만듭니다.
     """
     def get(self, request):
+        token = JWTAuthentication(request)
         homework = Homework.objects.all()
         serializer = HomeworkSerializer(homework, many=True)
         return Response(serializer.data)
