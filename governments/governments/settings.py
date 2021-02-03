@@ -154,16 +154,20 @@ REST_FRAMEWORK = {
     #   'rest_framework.parsers.JSONParser',
     # ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-      'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.AllowAny',
+    # ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
 #jwt
 SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
-
     'AUTH_HEADER_TYPES':('Bearer'),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
 }

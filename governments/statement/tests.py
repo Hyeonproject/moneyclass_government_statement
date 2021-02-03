@@ -35,13 +35,16 @@ class HomeworkTests(APITestCase):
         """
         url = reverse('homework')
         data = {
-            'homework': '자신의 꿈을 생각하기',
-            'end_time': '2021-02-13'
+            'name': '진로지도 생각하기',
+            'end_time': '2021-02-15T13:13:40Z'
         }
-        self.client.
-        self.client.session.headers.update(
-            {'Authorization': 'Bearer {}'.format(self.token_teacher)}
-        )
+        # self.client.credentials(
+        #     HTTP_AUTHORIZATION='Bearer' + self.token_teacher
+        # )
+        # self.client.session.headers.update(
+        #     {'Authorization': 'Bearer {}'.format(self.token_teacher)}
+        # )
+
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Homework.objects.count(), 2)
@@ -54,7 +57,6 @@ class HomeworkTests(APITestCase):
         전체 숙제를 보여주는 기능을 테스트 합니다.
         """
         url = reverse('homework')
-
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Homework.objects.count(), 1)
@@ -72,12 +74,9 @@ class HomeworkTests(APITestCase):
         """
         url = reverse('homework')
         data = {
-            'homework': '2월 1주차 일기',
-            'end_time': '2021-02-13'
+            'name': '2월 1주차 일기',
+            'end_time': '2021-02-10T13:13:40Z'
         }
-        self.client.session.headers.update(
-            {'Authorization': 'Bearer {}'.format(self.token_teacher)}
-        )
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Homework.objects.count(), 2)
