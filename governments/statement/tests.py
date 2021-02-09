@@ -23,7 +23,7 @@ class HomeworkTests(APITestCase):
     def setUp(self) -> None:
         self.token_teacher = get_key('teacher_token')
         self.test_homework_1 = Homework.objects.create(
-            name='2월 1주차 일기 검사', end_time='2021-02-15'
+            name='2월 3주차 일기 검사', end_time='2021-02-25'
         )
         # self.test_homework_2 = Homework.objects.create(
         #     name='수학익힘책 p15까지 풀기', end_time='2021-02-07'
@@ -32,19 +32,17 @@ class HomeworkTests(APITestCase):
     def test_create_homework(self):
         """
         숙제를 등록하는 기능을 테스트합니다.
+        url: homework path
+        data: request json data
         """
         url = reverse('homework')
         data = {
             'name': '진로지도 생각하기',
-            'end_time': '2021-02-15T13:13:40Z'
+            'end_time': '2021-02-25'
         }
-        # self.client.credentials(
-        #     HTTP_AUTHORIZATION='Bearer' + self.token_teacher
-        # )
-        # self.client.session.headers.update(
-        #     {'Authorization': 'Bearer {}'.format(self.token_teacher)}
-        # )
-
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer ' + self.token_teacher
+        ) # JWT
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Homework.objects.count(), 2)
@@ -77,6 +75,9 @@ class HomeworkTests(APITestCase):
             'name': '2월 1주차 일기',
             'end_time': '2021-02-10T13:13:40Z'
         }
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer ' + self.token_teacher
+        )  # JWT
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Homework.objects.count(), 2)

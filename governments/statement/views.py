@@ -1,21 +1,23 @@
-# from django.conf import settings
+from django.conf import settings
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
 from rest_framework import status
 from datetime import datetime
-# import jwt
+from rest_framework_simplejwt import tokens
+import jwt
 
 from .models import Homework
 from .serializers import HomeworkDataSerializer, HomeworkSerializer, HomeworkPutSerializer,\
     HomeworkDeleteSerializer
 
 
-# def token_testing(self, data):
-#     token = data.META.get('Authorization').split()[1]
-#     payload = jwt.decode(token, settings.JWT_PASSWORD, algorithms=[settings.JWT_ALGORITHMS])
-#     if (payload['authorities'][0] != 'ROLE_TEACHER') and (payload['authorities'][0] != 'ROLE_ADMIN'):
-#         raise Response({'detail': '권한이 없습니다'}, status=status.HTTP_401_UNAUTHORIZED)
+def token_testing(self, data):
+    token = data.authenticators
+    payload = jwt.decode(token, settings.JWT_PASSWORD, algorithms=[settings.JWT_ALGORITHMS])
+    if (payload['authorities'][0] != 'ROLE_TEACHER') and (payload['authorities'][0] != 'ROLE_ADMIN'):
+        raise Response({'detail': '권한이 없습니다'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class HomeworkView(APIView):
@@ -23,12 +25,15 @@ class HomeworkView(APIView):
     숙제 데이터베이스의 CRUD를 담당합니다.
     Read는 전체를 만듭니다.
     """
+    parser_classes = [JSONParser]
+
     def get(self, request):
         homework = Homework.objects.all()
         serializer = HomeworkSerializer(homework, many=True)
         return Response(serializer.data)
 
     def post(self, request):
+        token_testing(request)
         homework_serializer = HomeworkDataSerializer(data=request.data)
         if homework_serializer.is_valid():
             if request.data[''] <= datetime.today():
