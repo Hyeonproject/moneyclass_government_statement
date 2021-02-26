@@ -40,9 +40,9 @@ class HomeworkTests(APITestCase):
             'name': '진로지도 생각하기',
             'end_time': '2021-02-25'
         }
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer ' + self.token_teacher
-        ) # JWT
+        # self.client.credentials(
+        #     HTTP_AUTHORIZATION='Bearer ' + self.token_teacher
+        # ) # JWT
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Homework.objects.count(), 2)
@@ -73,11 +73,11 @@ class HomeworkTests(APITestCase):
         url = reverse('homework')
         data = {
             'name': '2월 1주차 일기',
-            'end_time': '2021-02-10T13:13:40Z'
+            'end_time': '2021-02-20T13:13:40Z'
         }
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer ' + self.token_teacher
-        )  # JWT
+        # self.client.credentials(
+        #     HTTP_AUTHORIZATION='Bearer ' + self.token_teacher
+        # )  # JWT
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Homework.objects.count(), 2)
